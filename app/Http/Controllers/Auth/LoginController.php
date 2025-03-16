@@ -19,8 +19,8 @@ class LoginController extends Controller
     {
         if ($request->attemptLogin()) {
             return redirect()->route('dashboard');
-        } else {
-            return back()->with('error', 'Usuário ou senha inválidos.');
         }
+
+        return back()->with('error', 'Usuário ou senha inválidos.');
     }
 }
