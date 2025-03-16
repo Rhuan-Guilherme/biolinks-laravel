@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RequestLogin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,21 +15,12 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login()
+    public function login(RequestLogin $request)
     {
-        request()->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
-
-        $user = User::query()->where('email', '=', request()->email)->first();
-        $corretPassword = Hash::check(request()->password, $user->password);
-
-        if ($user && $corretPassword) {
-            auth()->login($user);
+        if ($request->attemptLogin()) {
             return redirect()->route('dashboard');
+        } else {
+            return back()->with('error', 'Usuário ou senha inválidos.');
         }
-
-        return back()->with('error', 'Usuário ou senha inválidos!');
     }
 }
