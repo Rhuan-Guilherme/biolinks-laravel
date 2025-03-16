@@ -26,17 +26,14 @@ class RequestRegister extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'confirmed', 'unique:users'],
-            'password' => ['required', Password::min(8)]
+            'password' => ['required', Password::default()]
         ];
     }
 
     public function tryToLogin()
     {
-        $user = new User();
-        $user->name = $this->name;
-        $user->email = $this->email;
-        $user->password = $this->password;
-        $user->save();
+        $user = User::query()->create($this->validated());
+
 
         auth()->login($user);
 
