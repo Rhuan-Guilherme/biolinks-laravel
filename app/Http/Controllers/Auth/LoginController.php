@@ -16,6 +16,11 @@ class LoginController extends Controller
 
     public function login()
     {
+        request()->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+
         $user = User::query()->where('email', '=', request()->email)->first();
         $corretPassword = Hash::check(request()->password, $user->password);
 
