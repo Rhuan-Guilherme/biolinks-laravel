@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\Links\LinksController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,10 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     Route::get('/logout', LogoutController::class)->name('logout');
+
+    Route::get('/link/create', [LinksController::class, 'index'])->name('link.create');
+    Route::post('/link/create', [LinksController::class, 'create']);
+
 });
 
 
