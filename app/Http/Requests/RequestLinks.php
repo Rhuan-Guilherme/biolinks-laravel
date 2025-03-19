@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Link;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RequestLinks extends FormRequest
@@ -29,12 +29,8 @@ class RequestLinks extends FormRequest
     }
 
     public function createLink(){
-       $link =  Link::query()->create($this->validated());
-
-       if($link){
-           return true;
-       }
-
-       return false;
+        /* @var User $user* */
+       $user = auth()->user();
+       $user->links()->create($this->validated());
     }
 }

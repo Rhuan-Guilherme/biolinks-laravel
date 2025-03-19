@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Links;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestLinks;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 use function Laravel\Prompts\error;
 
 class LinksController extends Controller
@@ -25,7 +26,7 @@ class LinksController extends Controller
         try {
             $request->createLink();
             return to_route('dashboard');
-        } catch (error){
+        } catch (Exception){
             return back()->with('error', 'Erro ao salvar Link! Tente novamente.');
         }
     }
